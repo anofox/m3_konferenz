@@ -47,3 +47,6 @@ prepared_data/
 
 *.ipynb
 *.py
+
+__pycache__/
+.idea/
