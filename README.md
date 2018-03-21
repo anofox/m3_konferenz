@@ -1,1 +1,3 @@
-# m3_konferenz
+# M3 Konferenz: Demo Notebooks
+
+
