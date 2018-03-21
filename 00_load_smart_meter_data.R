@@ -3,6 +3,8 @@ library(data.table)
 library(foreach)
 library(iterators)
 
+source("r_functions/data_preparation.R")
+
 # Prepare London Smart Meter Data ----
 path <- "data/smart-meters-in-london/halfhourly_dataset/"
 dtData <- load_data_bulk(path)
