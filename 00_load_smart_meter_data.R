@@ -4,7 +4,7 @@ library(foreach)
 library(iterators)
 library(viridis)
 
-source("r_code//data_preparation.R")
+source("r_code/data_preparation.R")
 
 # 1.0 Prepare London Smart Meter Data ----
 path <- "data/smart-meters-in-london/halfhourly_dataset/"
@@ -67,6 +67,6 @@ fst::write_fst(dtData, path = "prepared_data/london_smart_meter/smart_meters_lon
 write_csv(dtData, "prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start_with_weather.csv")
 
 
-# Add holiday ----
+# Add holiday ? ----
 holiday <- readr::read_csv("data/smart-meters-in-london/uk_bank_holidays.csv")
 
