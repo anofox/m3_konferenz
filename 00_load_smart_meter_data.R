@@ -4,7 +4,7 @@ library(foreach)
 library(iterators)
 library(viridis)
 
-source("r_functions/data_preparation.R")
+source("r_code//data_preparation.R")
 
 # 1.0 Prepare London Smart Meter Data ----
 path <- "data/smart-meters-in-london/halfhourly_dataset/"
@@ -51,7 +51,6 @@ rm(p)
 dtData[, minDate := NULL]
 fst::write_fst(dtData, path = "prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start.fst")
 write_csv(dtData, "prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start.csv")
-a <- read_csv("prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start.csv")
 
 
 # 3.0 Add Weather Data & drop short series ----
@@ -64,8 +63,8 @@ setkey(dtData, date_time)
 setkey(weatherData, date_time)
 dtData <- weatherData[dtData]
 setkey(dtData, id, date_time)
-fst::write_fst(dtData, path = "prepared_data/london_smart_meter/smart_meters_london_with_weather.fst")
-write_csv(dtData, "prepared_data/london_smart_meter/smart_meters_london_with_weather.csv")
+fst::write_fst(dtData, path = "prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start_with_weather.fst")
+write_csv(dtData, "prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start_with_weather.csv")
 
 
 # Add holiday ----

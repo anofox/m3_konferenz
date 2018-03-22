@@ -45,8 +45,5 @@ prepared_data/
 *.csv
 *.tar.gz
 
-*.ipynb
-*.py
-
 __pycache__/
 .idea/
