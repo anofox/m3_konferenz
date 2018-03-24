@@ -95,4 +95,3 @@ def create_tensors(data, column_value, n_in=1, n_out=1, step_foreward=1, dropNaN
     tensor_y = tensor_y[range(0, tensor_y.shape[0], step_foreward)]
 
     return tensor_X, tensor_y
-

@@ -13,3 +13,15 @@ df_count = df.groupby([df.index.get_level_values(0), 'date'])['hour'].agg(['coun
 
 merge = pd.merge(df, df_count, how='left', sort=False)
 merge.index(['id', 'date'])
+
+
+
+
+scaler = {}
+df_train = df_train.groupby('id')
+
+for name, group in groups:
+  scr = MinMaxScaler()
+  scr.fit(group[[h_params['column_value']]])
+  scaler.update({name: scr})
+  group[[h_params['column_value']]] = scr.transform(group[[h_params['column_value']]])
