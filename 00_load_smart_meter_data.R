@@ -52,6 +52,12 @@ dtData[, minDate := NULL]
 fst::write_fst(dtData, path = "prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start.fst")
 write_csv(dtData, "prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start.csv")
 
+dtData <- read_csv("prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start.csv") %>% 
+  as.data.table()
+dtData %>% 
+  dplyr::filter(id == "MAC000002") %>% 
+  write_csv("prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start_example.csv")
+
 
 # 3.0 Add Weather Data & drop short series ----
 weatherData <- readr::read_csv("data/smart-meters-in-london/weather_hourly_darksky.csv")
@@ -65,6 +71,10 @@ dtData <- weatherData[dtData]
 setkey(dtData, id, date_time)
 fst::write_fst(dtData, path = "prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start_with_weather.fst")
 write_csv(dtData, "prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start_with_weather.csv")
+dtData <- read_csv("prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start.csv")
+dtData %>% 
+  dplyr::filter(id == "MAC000002") %>% 
+  write_csv("prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start_with_weather_example.csv")
 
 
 # Add holiday ? ----
