@@ -12,11 +12,11 @@ def load_file(path, file):
     return df
 
 
-def prepare_data(path, h_params):
-    files = os.listdir(path)
-    for file in files:
-        df = load_file(path, file)
-        
+def load_series(data_path, file, params):
+    df = pd.read_csv(data_path + file,
+                 parse_dates={'date' : [params['column_sort']]}, infer_datetime_format=True, 
+                 low_memory=False, na_values=['nan','?'], index_col=['date'])
+    return df
 
 
 
