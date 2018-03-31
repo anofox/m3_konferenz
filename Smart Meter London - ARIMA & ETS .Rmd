@@ -1,0 +1,55 @@
+---
+title: "ARIMA & ETS Models"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Ctrl+Shift+Enter*. 
+
+```{r, message=FALSE}
+library(mlr)
+library(tidyverse)
+df <- read_csv("prepared_data/london_smart_meter/smart_meters_london_cleaned_same_start_example.csv")
+df$date_time <- df$date_time + 3600
+startDate <- as.POSIXct('2013-12-31 00:00:00')
+df %>% 
+  filter(date_time > startDate) -> df
+nIn <- 24L
+nOut <- 24L
+initWindow <- 28 * 24 / nrow(df)
+```
+
+```{r, message=FALSE}
+df %>% 
+  select(date_time, energy) %>% 
+  as.data.frame() %>% 
+  makeForecastRegrTask(id = "smart_meter_london", data = ., target = "energy", frequency = 24L, date.col = "date_time") -> fcregr.task
+fcregr.task
+```
+```{r}
+resamp.desc <- makeResampleDesc("FixedCV", horizon = nOut, initial.window = initWindow)
+resamp.desc
+```
+
+```{r}
+arima.model <- makeLearner("fcregr.Arima")
+arima.model
+```
+
+```{r}
+arima.resample <- resample(learner = arima.model, task = fcregr.task, resampling = resamp.desc, measures = mlr::mape)
+```
+```{r}
+resamp.desc <- makeResampleDesc("GrowingCV", horizon = nOut, initial.window = initWindow)
+arima.resample <- resample(learner = arima.model, task = fcregr.task, resampling = resamp.desc, measures = mlr::mape)
+```
+```{r}
+ets.model <- makeLearner("fcregr.ets")
+ets.resample <- resample(learner = ets.model, task = fcregr.task, resampling = resamp.desc, measures = mlr::mape)
+```
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Ctrl+Alt+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Ctrl+Shift+K* to preview the HTML file).
+
+The preview shows you a rendered HTML copy of the contents of the editor. Consequently, unlike *Knit*, *Preview* does not run any R code chunks. Instead, the output of the chunk when it was last run in the editor is displayed.
