@@ -1,0 +1,7 @@
+pandas
+matplotlib
+seaborn
+scikit-garden
+pydotplus
+graphviz
+lifelines
